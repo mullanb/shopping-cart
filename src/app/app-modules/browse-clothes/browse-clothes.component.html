@@ -1,0 +1,30 @@
+<nav class="navbar navbar-light bg-light navbar-default center navStyles">
+  <a  class="navbar-brand nav-all"
+      (click)="FilterProducts('all')">
+    All
+  </a>
+
+  <a  *ngFor="let catergory of productCategories"
+      class="navbar-brand"
+      (click)="FilterProducts(catergory)">
+    {{catergory}}
+  </a>
+</nav>
+
+<div class="row gridStyles">
+  <div class="col-sm col-md-3 d-flex align-items-stretch" *ngFor="let product of products">
+    <div class="card cardStyles">
+      <img class="card-img-top center-block imageStyle" src={{product.image}} alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">{{product.productName}}</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <button class="btn btn-primary"
+                (click)="AddItemToCart(product)">
+          Add To Cart
+        </button>
+        Quantity:
+        <input id={{product.productName}} type="number" value="1" min="1" max={{product.productStock}} step="1"/>
+      </div>
+    </div>
+  </div>
+</div>
