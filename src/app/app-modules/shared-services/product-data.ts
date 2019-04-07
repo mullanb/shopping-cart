@@ -58,7 +58,7 @@ export let products: any = [
   },
   {
     productName: 'Parka Jacket',
-    productCategory: 'Shoes',
+    productCategory: 'Coats & Jackets',
     productPrice: 25,
     productStock: 10,
     image: '../../assets/parka_jacket.ico',

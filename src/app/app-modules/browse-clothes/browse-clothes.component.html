@@ -1,16 +1,14 @@
 <nav class="navbar navbar-light bg-light navbar-default center navStyles">
   <a  class="navbar-brand nav-all"
-      (click)="FilterProducts('all')">
+      (click)="filterProducts('all')">
     All
   </a>
-
   <a  *ngFor="let catergory of productCategories"
       class="navbar-brand"
-      (click)="FilterProducts(catergory)">
+      (click)="filterProducts(catergory)">
     {{catergory}}
   </a>
 </nav>
-
 <div class="row gridStyles">
   <div class="col-sm col-md-3 d-flex align-items-stretch" *ngFor="let product of products">
     <div class="card cardStyles">
@@ -18,12 +16,24 @@
       <div class="card-body">
         <h5 class="card-title">{{product.productName}}</h5>
         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <button class="btn btn-primary"
-                (click)="AddItemToCart(product)">
+        <button *ngIf="outOfStock(product)"
+                class="btn btn-primary"
+                (click)="addItemToCart(product)">
           Add To Cart
         </button>
-        Quantity:
-        <input id={{product.productName}} type="number" value="1" min="1" max={{product.productStock}} step="1"/>
+        <span *ngIf="outOfStock(product)">
+          Quantity:
+        </span>
+        <input *ngIf="outOfStock(product)"
+               id={{product.productName}}
+               type="number"
+               value={{quantity}}
+               min="1"
+               max={{product.productStock}}
+               step="1"/>
+        <span class="out-of-stock" *ngIf="!outOfStock(product)">
+          SORRY....OUT OF STOCK.
+        </span>
       </div>
     </div>
   </div>

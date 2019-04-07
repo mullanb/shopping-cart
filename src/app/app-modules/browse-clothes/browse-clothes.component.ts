@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { SiteDataService} from '../shared-services/product-details';
-import { CardModule } from 'primeng/card';
-
 
 @Component({
   selector: 'app-browse-clothes',
@@ -14,6 +12,7 @@ export class BrowseClothesComponent implements OnInit {
   public productsOriginal: any;
   public productCategories: string[];
   public cartItems: any[] = [];
+  public quantity = 1;
 
   constructor(private siteDataService: SiteDataService) { }
 
@@ -38,25 +37,38 @@ export class BrowseClothesComponent implements OnInit {
   /**
    * Filter products by catergory to display on the screen
    */
-  public FilterProducts(productCategory: string): void {
+  public filterProducts(productCategory: string): void {
     this.products = this.productsOriginal;
 
     productCategory === 'all' ? this.products = this.productsOriginal :
     this.products = this.products.filter(
       product => product.productCategory === productCategory);
-
-    console.log('productCategory::', productCategory, this.products)
   }
 
   /**
    * Add item to shopping cart
    */
-  public AddItemToCart(item: any): void {
+  public addItemToCart(item: any): void {
     const itemQuantity: any = document.getElementById(item.productName) as HTMLInputElement;
     item.quantity = itemQuantity.value;
 
+    // update the stock for the item
+    this.products.forEach((element, index) => {
+      if (element.productName === item.productName) {
+        this.products[index].productStock = this.products[index].productStock - item.quantity;
+      }
+    });
+
     this.cartItems.push(item);
-    console.log("this.cartItems::", this.cartItems)
+    this.quantity = 1;
+  }
+
+  /**
+   * Checks if the item is out of stock
+   * @returns {boolean}
+   */
+  public outOfStock(item: any): boolean {
+    return item.productStock > 0;
   }
 
 }
