@@ -8,12 +8,20 @@
       (click)="filterProducts(catergory)">
     {{catergory}}
   </a>
+  <i class="fas fa-shopping-cart cart"
+     data-toggle="modal" data-target="#shoppingCartModal"
+      (click)="openShoppingCart()"> ({{shoppingCartService.cartItems.length}})
+  </i>
 </nav>
+
+<app-shopping-cart-checkout (onOpen)="openShoppingCart($event)"></app-shopping-cart-checkout>
+
 <div class="row gridStyles">
   <div class="col-sm col-md-3 d-flex align-items-stretch" *ngFor="let product of products">
     <div class="card cardStyles">
       <img class="card-img-top center-block imageStyle" src={{product.image}} alt="Card image cap">
       <div class="card-body">
+        <h5 class="card-title price">£{{product.productPrice}}</h5>
         <h5 class="card-title">{{product.productName}}</h5>
         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
         <button *ngIf="outOfStock(product)"
@@ -38,3 +46,4 @@
     </div>
   </div>
 </div>
+

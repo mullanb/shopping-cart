@@ -1,3 +1,49 @@
-<p>
-  shopping-cart-checkout works!
-</p>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<body>
+
+<div class="w3-container">
+  <div id="cartModal" class="w3-modal">
+    <div class="w3-modal-content modalStyle">
+      <header class="w3-container w3-indigo">
+        <span onclick="document.getElementById('cartModal').style.display='none'"
+              class="w3-button w3-display-topright">&times;</span>
+        <h2>Checkout</h2>
+      </header>
+      <div class="w3-container container">
+          <div class="row itemRow" *ngFor="let item of shoppingCartService.cartItems">
+            <img class="col-sm col-md-2 d-flex imageStyle" src={{item.image}} alt="Card image cap">
+            <h5 class="col-sm col-md-3 d-flex">{{item.productName}}</h5>
+            <h5 class="col-sm col-md-3 d-flex">Quantity: {{item.quantity}}</h5>
+            <h5 class="col-sm col-md-3 d-flex">Price: £{{item.productPrice * item.quantity}}</h5>
+            <button class="col-sm col-md-1 d-flex btn btn-danger"
+            (click)="removeFromCart(item)">X</button>
+          </div>
+        <div *ngIf="shoppingCartService.cartItems?.length > 0" class="row discountStyles">
+          <button id="discountButton" class="btn btn-success col-sm col-md-2 discountButton"
+                  (click)="applyDiscount()">Apply Discount
+          </button>
+          <input id="discountCode" type="text" class="col-sm col-md-2" placeholder="Enter Code"/>
+          <h5 class="totalCost col-sm col-md-7">Total Cost: £{{totalCost}}</h5>
+        </div>
+      </div>
+      <span id="discountAccepted" class="col-sm col-md-3 discountAccepted">£{{discount}} discount applied!</span>
+      <h5 *ngIf="shoppingCartService.cartItems?.length == 0" class="empty">Shopping Cart is empty</h5>
+      <footer class="w3-container w3-white">
+        <div class="footerButtons">
+          <button type="button" class="btn btn-secondary"
+          (click)="cancel()">
+            Cancel
+          </button>
+          <button type="button" class="btn btn-danger"
+                  (click)="clearCart()">Clear Cart
+          </button>
+          <button type="button" class="btn btn-success">Buy</button>
+        </div>
+      </footer>
+    </div>
+  </div>
+</div>
+</body>
+</html>

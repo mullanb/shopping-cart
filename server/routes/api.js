@@ -1,4 +1,7 @@
-export let products: any = [
+const express = require('express');
+const router = express.Router();
+// const PRODUCTSDATA = require('./../src/app/app-modules/shared/services/product-details.service.ts');
+const products = [
   {
     productName: 'Leather Jacket',
     productCategory: 'Coats & Jackets',
@@ -97,3 +100,26 @@ export let products: any = [
     quantity: 0
   }
 ];
+
+// declare axios for making http requests
+const axios = require('axios');
+const API = 'https://jsonplaceholder.typicode.com';
+
+/* GET api listing. */
+router.get('/', (req, res) => {
+  res.send('api works');
+});
+
+// Get all posts
+router.get('/posts', (req, res) => {
+  axios.get(`${API}/posts`)
+  .then(posts => {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+    res.status(200).json(products);
+  })
+.catch(error => {
+  res.status(500).send(error)
+});
+});
+
+module.exports = router;

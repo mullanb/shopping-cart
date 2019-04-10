@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { SiteDataService} from '../shared-services/product-details';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ProductDetailsService} from '../shared/services/product-details.service';
+import { ShoppingCartCheckoutComponent } from '../shopping-cart-checkout/shopping-cart-checkout.component';
+import { ShoppingCartService } from '../shared/services/shopping-cart.service';
 
 @Component({
   selector: 'app-browse-clothes',
@@ -11,10 +13,17 @@ export class BrowseClothesComponent implements OnInit {
   public products: any;
   public productsOriginal: any;
   public productCategories: string[];
-  public cartItems: any[] = [];
   public quantity = 1;
 
-  constructor(private siteDataService: SiteDataService) { }
+  /**
+   * @param {ProductDetailsService} productDetailsService
+   * @param {ShoppingCartService} shoppingCartService
+   */
+  constructor(private productDetailsService: ProductDetailsService,
+              public shoppingCartService: ShoppingCartService) { }
+
+  @ViewChild(ShoppingCartCheckoutComponent)
+  private shoppingCartCheckoutComponent: ShoppingCartCheckoutComponent;
 
   ngOnInit() {
     this.getProductDetails();
@@ -24,7 +33,7 @@ export class BrowseClothesComponent implements OnInit {
    * Retrieve the product details
    */
   public getProductDetails(): void {
-    this.siteDataService.ProductDetails().subscribe((products) => {
+    this.productDetailsService.getProductDetails().subscribe((products) => {
       this.products = products;
       this.productsOriginal = products;
       this.productCategories = this.products.map(
@@ -35,7 +44,8 @@ export class BrowseClothesComponent implements OnInit {
   }
 
   /**
-   * Filter products by catergory to display on the screen
+   * Filter products by category to display on the screen
+   * @param {string} productCategory
    */
   public filterProducts(productCategory: string): void {
     this.products = this.productsOriginal;
@@ -47,6 +57,7 @@ export class BrowseClothesComponent implements OnInit {
 
   /**
    * Add item to shopping cart
+   * @param item
    */
   public addItemToCart(item: any): void {
     const itemQuantity: any = document.getElementById(item.productName) as HTMLInputElement;
@@ -59,7 +70,7 @@ export class BrowseClothesComponent implements OnInit {
       }
     });
 
-    this.cartItems.push(item);
+    this.shoppingCartService.addToShoppingCart(item);
     this.quantity = 1;
   }
 
@@ -69,6 +80,16 @@ export class BrowseClothesComponent implements OnInit {
    */
   public outOfStock(item: any): boolean {
     return item.productStock > 0;
+  }
+
+  /**
+   * Calls out to the shoppingCartCheckoutComponent and opens the modal to display the items
+   */
+  public openShoppingCart(): void {
+    this.shoppingCartService.shoppingCartUniqueItems().subscribe((products) => {
+      this.shoppingCartCheckoutComponent.openCartModal(products);
+      document.getElementById('cartModal').style.display = 'block';
+    });
   }
 
 }
