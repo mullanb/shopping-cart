@@ -46,6 +46,11 @@ export class ShoppingCartCheckoutComponent {
     this.totalPrice();
   }
 
+  public buy(): void {
+    this.clearCart();
+    this.cancel();
+  }
+
   public applyDiscount(): void {
     const discountCode: string = (<HTMLInputElement>document.getElementById('discountCode')).value;
 
