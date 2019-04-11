@@ -8,7 +8,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build": "ng build && node server.js && ng serve -port 500 --open"
+    "build": "ng build && ng serve -port 4200 --open",
+    "build-node": "node server.js",
+    "dev": "concurrently --kill-others \"npm run build\" \"npm run build-node\""
   },
   "private": true,
   "dependencies": {
@@ -27,6 +29,8 @@
     "core-js": "^2.4.1",
     "express": "^4.16.4",
     "lodash": "4.17.4",
+    "mongoose": "^5.5.1",
+    "passport": "^0.4.0",
     "primeicons": "^1.0.0",
     "primeng": "^5.0.0",
     "rxjs": "^5.5.6",
@@ -39,7 +43,10 @@
     "@types/jasmine": "~2.8.3",
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "~6.0.60",
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
     "codelyzer": "^4.0.1",
+    "concurrently": "^4.1.0",
     "jasmine-core": "~2.8.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~2.0.0",

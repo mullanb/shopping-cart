@@ -13,14 +13,10 @@ import { HttpClientModule } from '@angular/common/http'
 // Define the routes
 const ROUTES = [
   {
-    path: '',
-    redirectTo: 'posts',
-    pathMatch: 'full'
-  },
-  {
     path: 'browse',
     component: BrowseClothesComponent
-  }
+  },
+  { path: '', redirectTo: '/browse', pathMatch: 'full'}
 ];
 
 @NgModule({
