@@ -1,4 +1,4 @@
-export let discountData: any = [
+module.exports = [
   {
     discountCode: 'DISCOUNT5',
     discountAmount: 5,

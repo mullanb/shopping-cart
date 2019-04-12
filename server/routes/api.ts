@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const PRODUCTSDATA = require('../../src/app/app-modules/shared/models/product-data2');
+const PRODUCTSDATA = require('../../src/app/app-modules/shared/models/product-data');
 
 // declare axios for making http requests
 const axios = require('axios');

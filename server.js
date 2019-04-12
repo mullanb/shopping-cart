@@ -1,42 +1,22 @@
-// Get dependencies
 const express = require('express');
-const path = require('path');
-const http = require('http');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-
-// Get our API routes
-const api = require('./server/routes/api.ts');
-
 const app = express();
+const PORT = process.env.PORT || 8080;
+const PRODUCTSDATA = require('./src/app/app-modules/shared/models/product-data');
+const DISCOUNTDATA = require('./src/app/app-modules/shared/models/discount-data');
 
-// Parsers for POST data
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 
-// Point static path to dist
-app.use(express.static(path.join(__dirname, 'dist')));
-
-// Set our api routes
-app.use('/api', api);
-
-// Catch all other routes and return the index file
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist/index.html'));
+app.get("/products", (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+  res.json(PRODUCTSDATA);
+  throw new Error("Unable to retrieve products");
 });
 
-/**
- * Get port from environment and store in Express.
- */
-const port = process.env.PORT || '8080';
-app.set('port', port);
+app.get("/discounts", (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+  res.json(DISCOUNTDATA);
+  throw new Error("Unable to retrieve discounts");
+});
 
-/**
- * Create HTTP server.
- */
-const server = http.createServer(app);
-
-/**
- * Listen on provided port, on all network interfaces.
- */
-server.listen(port, () => console.log(`API running on localhost:${port}`));
+app.listen(PORT, () => {
+  console.log('Server is running on PORT:',PORT);
+});

@@ -20,6 +20,7 @@ Run `npm run dev` to build and run the project. This will run the following comm
 1) `ng build` - to build the angular project
 2) `ng serve -port 4200 --open` - to run the angular project
 3) `node server.js` - to run the express node server
+4) Navigate to `http://localhost:4200/browse`
 
 The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
